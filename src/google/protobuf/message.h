@@ -227,7 +227,7 @@ PROTOBUF_EXPORT bool IsDescendant(Message& root, const Message& message);
 // Abstract interface for protocol messages.
 //
 // See also MessageLite, which contains most every-day operations.  Message
-// adds descriptors and reflection on top of that.
+// adds descriptors and reflection on top of that.  Message 在 MessageLite 之上添加 描述符(descriptors) 以及 反射(reflection)
 //
 // The methods of this class that are virtual but not pure-virtual have
 // default implementations based on reflection.  Message classes which are
@@ -237,9 +237,9 @@ PROTOBUF_EXPORT bool IsDescendant(Message& root, const Message& message);
 //
 // Users must not derive from this class. Only the protocol compiler and
 // the internal library are allowed to create subclasses.
-class PROTOBUF_EXPORT Message : public MessageLite {
+class PROTOBUF_EXPORT Message : public MessageLite {     // protocal messages 的抽象接口
  public:
-  constexpr Message() {}
+  constexpr Message() {} // 这里用了 constexpr constructor。当该类的对象需要用于产生一个常量表达式时，constexpr constructor 是必要的。
 
   // Basic Operations ------------------------------------------------
 
@@ -262,11 +262,11 @@ class PROTOBUF_EXPORT Message : public MessageLite {
   // messages which will be merged.  Repeated fields will be concatenated.
   // The given message must be of the same type as this message (i.e. the
   // exact same class).
-  virtual void MergeFrom(const Message& from);
+  virtual void MergeFrom(const Message& from); // 将 一条 message 合并到这里，唯一的要求：message 类要相同，例如 EchoMessage(继承自 Message) 的对象 e1 和 e2
 
   // Verifies that IsInitialized() returns true.  GOOGLE_CHECK-fails otherwise, with
   // a nice error message.
-  void CheckInitialized() const;
+  void CheckInitialized() const;        /*--------------------------------------------------------看到这里--------------------------------------------------------*/
 
   // Slowly build a list of all required fields that are not set.
   // This is much, much slower than IsInitialized() as it is implemented
